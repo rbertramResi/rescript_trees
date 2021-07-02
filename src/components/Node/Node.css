@@ -1,6 +1,6 @@
 .card {
-  padding: 1em;
-  margin: 1em;
+  padding: .2em;
+  margin: .2em;
   border: 1px solid #333;
 }
 .card:hover {
@@ -8,4 +8,19 @@
 }
 .card button {
   margin: .5em .3em 0 .3em;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: grid;
+  place-items: center;
+}
+
+.add {
+  background: steelblue;
+}
+
+.delete {
+  background-color: crimson;
 }

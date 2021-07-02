@@ -1,6 +1,4 @@
 %%raw("require('./Node.css')")
-// todo try to get rid of mutables
-type nodeMatch = {mutable match: option<NodeTypes.node>}
 
 let rec isChildOf = (node: NodeTypes.node, rootId: int): bool => {
   let resolvedParent = switch node.parent {
@@ -34,20 +32,21 @@ let rec createChild = (
     let _ = currentTree.children->Js.Array2.push(newChild)
     nodeTree
   } else {
-    let nodeMatch = {match: None}
+    let nodeMatch = ref(None)
 
-    currentTree.children->Belt.Array.forEach(n => {
+    let _ = currentTree.children->Belt.Array.getBy(n => {
       if n.id == parentId {
         let _ = n.children->Js.Array2.push(newChild)
-      } else if n.children->Belt.Array.length > 0 {
+        true
+      } else {
         // would be better to find an immutable way to do this
-        nodeMatch.match = Some(n)
+        nodeMatch.contents = Some(n)
+        let _ = createChild(parentId, n, nodeTree)
+        false
       }
     })
-    switch nodeMatch.match {
-    | None => nodeTree
-    | Some(n) => createChild(parentId, n, nodeTree)
-    }
+
+    nodeTree
   }
 }
 
@@ -103,6 +102,5 @@ let orderNodesByParent = (tree: NodeTypes.node) => {
       let _ = nestedArr->Js.Array2.push([node])
     }
   })
-  Js.log2("nestedArr", nestedArr)
   nestedArr
 }

@@ -2,3 +2,13 @@
   display: flex;
   justify-content: center;
 }
+
+.node-row {
+  display: flex;
+  justify-content: space-between;
+  border: 1px dashed #333
+}
+
+.no-border {
+  border: 0;
+}
