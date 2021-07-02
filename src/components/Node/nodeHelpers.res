@@ -32,20 +32,15 @@ let rec createChild = (
     let _ = currentTree.children->Js.Array2.push(newChild)
     nodeTree
   } else {
-    let nodeMatch = ref(None)
-
     let _ = currentTree.children->Belt.Array.getBy(n => {
       if n.id == parentId {
         let _ = n.children->Js.Array2.push(newChild)
         true
       } else {
-        // would be better to find an immutable way to do this
-        nodeMatch.contents = Some(n)
         let _ = createChild(parentId, n, nodeTree)
         false
       }
     })
-
     nodeTree
   }
 }
